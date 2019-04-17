@@ -1,9 +1,23 @@
 <template>
   <div id="app">
     <Header />
+
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col sm="6" offset="3">
+          <QuestionBox 
+            v-if="questions.length"
+            :question="questions[index]"
+            :nextQuestion="nextQuestion"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
+
   </div>
 </template>
 <script>
+
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
 
@@ -13,6 +27,29 @@ export default {
   components: {
     Header,
     QuestionBox
+  },
+  data() {
+    return {
+      questions: [],
+      index: 0
+    }
+  },
+  methods: {
+    nextQuestion() {
+      this.index++;
+    }
+  },
+  // pull in questions from opentdb api
+  mounted: function() {
+    fetch('https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple', {
+      method: 'get'
+    })
+      .then( (response) => {
+        return response.json();
+      })
+      .then(jsonData => {
+        this.questions = jsonData.results;
+      })
   }
 }
 </script>
