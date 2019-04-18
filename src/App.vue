@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <Header />
+    <Header 
+      :numCorrect='numCorrect'
+      :numTotal='numTotal'
+    />
 
     <b-container class="bv-example-row">
       <b-row>
@@ -9,6 +12,7 @@
             v-if="questions.length"
             :question="questions[index]"
             :nextQuestion="nextQuestion"
+            :increment="increment"
           />
         </b-col>
       </b-row>
@@ -31,12 +35,20 @@ export default {
   data() {
     return {
       questions: [],
-      index: 0
+      index: 0,
+      numCorrect: 0,
+      numTotal: 0
     }
   },
   methods: {
     nextQuestion() {
       this.index++;
+    },
+    increment(isCorrect) {
+      if (isCorrect) {
+        this.numCorrect++;
+      }
+      this.numTotal++;
     }
   },
   // pull in questions from opentdb api
