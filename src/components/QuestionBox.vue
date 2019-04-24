@@ -11,7 +11,7 @@
 
             <b-list-group>
                 <b-list-group-item 
-                v-for="(answer, index) in answers" 
+                v-for="(answer, index) in shuffledAnswers" 
                 :key="index"
                 @click="selectAnswer(index)"
                 :class="[selectedIndex === index ? 'selected' : '']">
@@ -22,7 +22,7 @@
             <b-button 
                 variant="primary"
                 @click="submitAnswer"
-                :disabled="!selectedIndex">
+                :disabled="selectedIndex < 0">
                 Submit
             </b-button>
             <b-button 
@@ -109,7 +109,7 @@ export default {
 }
 
 .correct {
-    background-clip: lightgreen;
+    background-color: lightgreen;
 }
 
 .incorrect {
