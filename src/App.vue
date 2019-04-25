@@ -10,9 +10,11 @@
         <b-col sm="6" offset="3">
           <QuestionBox 
             v-if="questions.length"
+            :questions="questions"
             :question="questions[index]"
             :nextQuestion="nextQuestion"
             :increment="increment"
+            :numTotal="numTotal"
           />
         </b-col>
       </b-row>
@@ -53,9 +55,12 @@ export default {
   },
   // pull in questions from opentdb api
   mounted: function() {
-    fetch('https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple', {
+    fetch('https://opentdb.com/api.php?amount=10&category=31&type=multiple', {
       method: 'get'
     })
+    /*fetch('https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple', {
+      method: 'get'
+    })*/
       .then( (response) => {
         return response.json();
       })

@@ -20,19 +20,35 @@
                 </b-list-group-item>                            
             </b-list-group>
 
+            <!-- Submit and Next button will be hidden at the end of the
+                quiz. Only the Play Again button will appear at the end. 
+                Hence, the v-if statements.
+            -->
             <b-button 
                 variant="primary"
+                v-if="numAnswered != questions.length"
                 @click="submitAnswer"
                 :disabled="selectedIndex === null || answered">
                 Submit
             </b-button>
             <b-button 
                 variant="success" 
+                v-if="numAnswered != questions.length"
                 @click="nextQuestion"
                 :disabled="answered === false"
                 >
                 Next Question
             </b-button>
+
+            <!-- Only appears at the end -->
+            <b-button
+                variant="success"
+                v-if="numAnswered === questions.length "
+                @click='reloadQuestions'
+                >
+                Play Again!
+            </b-button>
+
         </b-jumbotron>
     </div>
 </template>
@@ -40,19 +56,21 @@
 <script>
 import _ from 'lodash'
 
-// Need to pass it in is a prop to use it 
+// Need to pass variables from other .vue files in is a prop to use it 
 export default {
     props: {
         question: Object,
         nextQuestion: Function,
-        increment: Function
+        increment: Function,
+        questions: Array
     },
     data() {
         return {
             selectedIndex: null,
             correctIndex: null,
             shuffledAnswers: [],
-            answered: false
+            answered: false,
+            numAnswered: null
         }
     },
     computed: {
@@ -87,6 +105,7 @@ export default {
             }
 
             this.answered = true;
+            this.numAnswered++;
             this.increment(isCorrect);
         },
         shuffleAnswers() {
@@ -94,6 +113,7 @@ export default {
             this.shuffledAnswers = _.shuffle(answers);
             this.correctIndex = this.shuffledAnswers.indexOf(this.question.correct_answer);
         },
+        // Based on what the user choose, apply a CSS class to their choice 
         answerClass(index) {
             let answerClass = '';
             if (!this.answered && this.selectedIndex === index) {
@@ -107,6 +127,10 @@ export default {
                 answerClass = '';  
             
             return answerClass;
+        },
+        // At the end if the user wants to play again, this reloads the page
+        reloadQuestions() {
+            location.reload();
         }
     }
 }
