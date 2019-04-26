@@ -41,6 +41,12 @@
             </b-button>
 
             <!-- Only appears at the end -->
+            <br />
+            <p v-if="numAnswered === questions.length">
+                <strong>You got {{ numCorrect }} / {{ numTotal }} correct!</strong>
+            </p>
+
+            <br />
             <b-button
                 variant="success"
                 v-if="numAnswered === questions.length "
@@ -62,7 +68,9 @@ export default {
         question: Object,
         nextQuestion: Function,
         increment: Function,
-        questions: Array
+        questions: Array,
+        numTotal: Number,
+        numCorrect: Number
     },
     data() {
         return {

@@ -14,6 +14,7 @@
             :question="questions[index]"
             :nextQuestion="nextQuestion"
             :increment="increment"
+            :numCorrect="numCorrect"
             :numTotal="numTotal"
           />
         </b-col>
@@ -55,12 +56,9 @@ export default {
   },
   // pull in questions from opentdb api
   mounted: function() {
-    fetch('https://opentdb.com/api.php?amount=10&category=31&type=multiple', {
+    fetch('https://opentdb.com/api.php?amount=10&category=23&type=multiple', {
       method: 'get'
     })
-    /*fetch('https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple', {
-      method: 'get'
-    })*/
       .then( (response) => {
         return response.json();
       })
